@@ -1,7 +1,7 @@
 /.env
 /.env.example
 /.env.production
-/vendor/
+# /vendor/
 /uploads/
 /uploads/*
 /database/
