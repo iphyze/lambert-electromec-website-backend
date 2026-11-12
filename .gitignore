@@ -1,0 +1,8 @@
+/.env
+/.env.example
+/.env.production
+/vendor/
+/uploads/
+/uploads/*
+/database/
+# /README.md

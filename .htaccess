@@ -1,0 +1,21 @@
+Options -Indexes -MultiViews
+DirectoryIndex index.php
+
+RewriteEngine On
+
+# Never expose application code, dependencies, SQL, scripts or private CV files.
+RewriteRule ^(?:includes|routes|vendor|database|scripts)(?:/|$) - [F,L,NC]
+RewriteRule ^uploads/cv(?:/|$) - [F,L,NC]
+
+<FilesMatch "^(?:\.env|\.env\.example|composer\.(?:json|lock)|README\.md)$">
+    Require all denied
+</FilesMatch>
+
+# Preserve Authorization for PHP/FastCGI under Apache/cPanel.
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
+
+# Clean API endpoint routing through the front controller.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+?)/?$ index.php?__lambert_route=/$1 [QSA,L]
